@@ -6,15 +6,15 @@ exports.handler = (event, context, callback) => {
   // ================================
 
   const instanceName = "LAMP_Stack-2GB-Frankfurt-1" // Put your instance name here http://take.ms/dChbs
-  const backupDaysMax = 7; // keep at least 7 daily backups 
-  const backupWeeksMax = 4; // keep at least 4  weekly  backups
-  const backupMonthsMax = 3; // keep at least 3  monthly  backups
+  const backupDaysMax = 1; // keep at least 7 daily backups 
+  const backupWeeksMax = 7; // keep at least 4  weekly  backups
+  const backupMonthsMax = 2; // keep at least 3  monthly  backups
 
   // ================================        
   // Unique short tag for snapshots
   // ================================
 
-  const labelTag = "ABC" // Use labelTag to avoid the conflict with overriding of the backups from different instances you have.
+  const labelTag = "Lambda" // Use labelTag to avoid the conflict with overriding of the backups from different instances you have.
   // Set it differently in your Lambdas for different instances. For "ABC" label it would be ABCKW8TAG6 the name of the backups 
 
 
@@ -118,6 +118,9 @@ exports.handler = (event, context, callback) => {
         backupDaysTillNow = Math.floor((now - backupDate) / oneDay);
         saveBackup = false;
         if (backupFromInstance == instanceName) {
+                // DO NOT DELETE Manual Backups
+                NameOfSnapshot = data.instanceSnapshots[i].name;
+                if (!NameOfSnapshot.includes(labelTag)) { saveBackup = true; }
                 // DO NOT DELETE LAST backupDaysMax DAYS BACKUPS
                 if (backupDaysTillNow <= backupDaysMax) { saveBackup = true; }
                 // DO NOT DELETE LAST backupWeeksMax WEEKS BACKUPS
