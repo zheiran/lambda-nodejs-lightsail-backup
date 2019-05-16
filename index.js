@@ -5,9 +5,9 @@ exports.handler = (event, context, callback) => {
   // Define your backups
   // ================================
 
-  const instanceName = "LAMP_Stack-2GB-Frankfurt-1" // Put your instance name here http://take.ms/dChbs
-  const backupDaysMax = 1; // keep at least 7 daily backups 
-  const backupWeeksMax = 7; // keep at least 4  weekly  backups
+  const instanceName = "Ubuntu-Instance" // Put your instance name here http://take.ms/dChbs
+  const backupDaysMax = 7; // keep at least 7 daily backups 
+  const backupWeeksMax = 4; // keep at least 4  weekly  backups
   const backupMonthsMax = 2; // keep at least 3  monthly  backups
 
   // ================================        
@@ -23,7 +23,7 @@ exports.handler = (event, context, callback) => {
   // ================================
 
   var AWS = require('aws-sdk');
-  AWS.config.update({ region: 'eu-central-1' });
+  AWS.config.update({ region: 'us-west-2' });
   var Lightsail = new AWS.Lightsail();
 
   // ================================        
@@ -104,6 +104,7 @@ exports.handler = (event, context, callback) => {
   var backupDaysTillNow;
   var saveBackup;
   var backupDate;
+  var NameOfSnapshot;
 
   Lightsail.getInstanceSnapshots(params, getSnapshots);
 
